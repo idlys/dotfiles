@@ -1,0 +1,65 @@
+#!/bin/sh
+
+while [ "$1" ]
+do
+  case $1 in
+    '-w')
+      write_doc=true
+      ;;
+    '-n')
+      create_doc=true
+      ;;
+    '-o')
+      open_doc=true
+      ;;
+    *)
+      src_path=$1
+      ;;
+  esac
+
+  shift
+done
+
+TEXBOT_BLANK_PDF="$HOME/.local/share/texbot/blank.pdf"
+
+gen_path=${src_path%.tex}
+pdf_path="${gen_path}.pdf"
+
+TEXBOT_VIEWER='mupdf'
+TEXBOT_COMPILER='latexrun'
+
+compile_doc() {
+  case $TEXBOT_COMPILER in
+    'latexrun')
+      latexrun $src_path
+      ;;
+  esac
+}
+
+update_viewer() {
+  case $TEXBOT_VIEWER in
+    'mupdf')
+      killall -SIGHUP mupdf-x11
+      ;;
+  esac
+}
+
+run_viewer() {
+  mupdf "$pdf_path" &
+}
+
+if [ "$create_doc" ]
+then
+  cp "$TEXBOT_BLANK_PDF" "$pdf_path"
+fi
+
+if [ "$write_doc" ]
+then
+  (compile_doc ; update_viewer) > /dev/null 2>&1 &
+fi
+
+if [ "$open_doc" ]
+then
+  run_viewer > /dev/null 2>&1
+fi
+

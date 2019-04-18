@@ -1,6 +1,6 @@
 set nocompatible
-set noswapfile
 set visualbell t_vb=
+set noswapfile
 set backspace=indent,eol,start
 
 filetype plugin indent on
@@ -30,6 +30,9 @@ Plug 'SirVer/ultisnips'
 
 call plug#end()
 
+" Include script files in the path
+let $PATH .= ':' . $HOME . '/.vim/scripts'
+
 " Vimtex options
 " let g:vimtex_compiler_method = 'latexmk'
 " let g:vimtex_view_method = 'mupdf'
@@ -43,4 +46,5 @@ au BufWritePost *tex silent !texbot -w %
 
 au FileType *tex setlocal shiftwidth=2
 au FileType sh setlocal shiftwidth=2
+au FileType c setlocal shiftwidth=2
 

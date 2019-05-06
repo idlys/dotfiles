@@ -1,0 +1,88 @@
+# Math mode detection
+global !p
+texMathZones = ['texMathZone'+x for x in ['A', 'AS', 'B', 'BS', 'C', 'CS', 'D', 'DS', 'E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS', 'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X', 'Y', 'Z']]
+
+texIgnoreMathZones = ['texMathText']
+
+texMathZoneIds = vim.eval('map('+str(texMathZones)+", 'hlID(v:val)')")
+texIgnoreMathZoneIds = vim.eval('map('+str(texIgnoreMathZones)+", 'hlID(v:val)')")
+
+ignore = texIgnoreMathZoneIds[0]
+
+def math():
+	synstackids = vim.eval("synstack(line('.'), col('.') - (col('.')>=2 ? 1 : 0))")
+	try:
+		first = next(i for i in reversed(synstackids) if i in texIgnoreMathZoneIds or i in texMathZoneIds)
+		return first != ignore
+	except StopIteration:
+		return False
+endglobal
+
+snippet \( "Inline math" A
+\$ $1 \$
+endsnippet
+
+snippet \[ "Display math" bA
+\[
+	${0:${VISUAL}}
+\]
+endsnippet
+
+context "math()"
+snippet text "Text" wA
+\text{${1:${VISUAL}}}$0
+endsnippet
+
+# Fractions
+context "math()"
+priority 10
+snippet / "Inner fraction" i
+\frac{$1}{$2}
+endsnippet
+
+context "math()"
+snippet // "Auto fraction" iA
+\frac{$1}{$2}
+endsnippet
+
+context "math()"
+priority 100
+snippet '(([A-Za-z]|\d)+)/' "Proceeded fraction" wr
+\frac{`!p snip.rv = match.group(1)`}{$1}
+endsnippet
+
+context "math()"
+snippet '(([A-Za-z]|\d)+)/(([A-Za-z]|\d)+)' "Full fraction" wrA
+\frac{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(3)`}
+endsnippet
+
+context "math()"
+snippet sum "Summation" wA
+\sum_{${1:${2:n} = ${3:0}}}^{${4:\infty}}
+endsnippet
+
+context "math()"
+snippet prod "Products" wA
+\prod_{${1:${2:n} = ${3:0}}}^{${4:\infty}}
+endsnippet
+
+context "math()"
+snippet int "Integral" wA
+\int_{${1:${2:n} = ${3:0}}}^{${4:\infty}}
+endsnippet
+
+context "math()"
+snippet lim "Limit" wA
+\lim_{${1:x} \to ${2:\infty}}
+endsnippet
+
+context "math()"
+snippet binom "Binomial coefficient" wA
+\binom{${1:n}}{${2:k}}$0
+endsnippet
+
+context "math()"
+snippet () "Parens" iA
+\parens{${1:${VISUAL}}}
+endsnippet
+

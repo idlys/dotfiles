@@ -7,17 +7,22 @@ filetype plugin indent on
 syntax on
 syntax enable
 
-hi Normal ctermbg=None
-hi VertSplit ctermfg=None ctermbg=None
-hi NonText ctermfg=8
-set fillchars=vert:\ ,fold:-
+set showcmd
 
-set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+hi Normal ctermbg=None
+hi VertSplit cterm=None
+hi NonText ctermfg=8
+set fillchars=vert:\│
+
+set scrolloff=3
+
+set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
 set autoindent
 
 set wrap linebreak nolist
 
-let maplocalleader = " "
+map <s-Space> <localleader>
+map <Space> <leader>
 
 noremap j gj
 noremap k gk
@@ -35,18 +40,29 @@ call plug#end()
 " Include script files in the path
 let $PATH .= ':' . $HOME . '/.vim/scripts'
 
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
 " Vimtex options
 let g:vimtex_compiler_method = 'latexmk'
-let g:vimtex_view_method = 'mupdf'
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_compiler_latexmk = {
+            \ 'backend' : 'jobs',
+            \ 'background' : 1,
+            \ 'build_dir' : 'latex.out',
+            \ 'callback' : 0,
+            \ 'executable' : 'latexmk',
+            \ 'options' : [
+            \   '-verbose',
+            \   '-file-line-error',
+            \   '-synctex=0',
+            \   '-interaction=nonstop',
+            \ ]
+            \}
+let g:vimtex_log_ignore = ['Zathura is not linked to libsynctex\!']
 
-" au BufWritePost *tex VimtexCompile
 let g:tex_flavor = 'latex'
 
-" au BufNewFile *tex silent !texbot -n -o %
-" au BufReadPre *tex silent !texbot -o %
-" au BufWritePost *tex silent !texbot -w %
-
-au FileType *tex setlocal shiftwidth=2
-au FileType sh setlocal shiftwidth=2
-au FileType c,cpp setlocal shiftwidth=2
+au FileType snippets setlocal noexpandtab nosmarttab
 

@@ -1,0 +1,24 @@
+# BSPWM controls
+super + {_,shift +} x
+    {bspc node --close,bspc quit}
+
+super + {_,shift +} {1,2,3,4,q,w,e,r}
+    bspc {desktop --focus,node --to-desktop} {1,2,3,4,q,w,e,r}
+
+super + {_,shift +} {h,j,k,l}
+    bspc {node --focus,node --swap} {west,south,north,east}
+
+
+# System
+XF86Audio{Raise,Lower}Volume
+    amixer -c 1 sset Master 2%{+,-}
+
+
+# Applications
+
+super + space
+    rofi -show run
+
+super + grave
+    alacritty
+

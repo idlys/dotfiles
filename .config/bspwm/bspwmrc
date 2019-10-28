@@ -1,0 +1,46 @@
+#!/bin/sh
+
+# Default bspwm cascade settings
+bspc config single_monocle "true"
+bspc config borderless_monocle "true"
+bspc config gapless_monocle "true"
+
+bspc config focus_follows_pointer "true"
+
+# Default rules
+bspc rule -a Zathura state=tiled
+
+
+# It would be nice to have "desktop groups" which could be moved between
+# monitors as a group, instead of individually. The desktop groups could be
+# controlled by the q,w,e,r keys while the individual desktops could be
+# 1,2,3,4,5,6,7,8,9,0 for each group.
+
+primary=eDP1
+secondary=HDMI1
+
+# Set up full desktop list, depending on monitor set up
+if bspc query -M --names | grep "HDMI1"
+then
+  bspc monitor $primary --reset-desktops 1 2 3 4 
+  bspc monitor $secondary --reset-desktops q w e r
+else
+  bspc monitor $primary --reset-desktops 1 2 3 4 q w e r
+fi
+
+
+
+# Focus default desktop
+bspc desktop --focus 1
+
+
+# Start daemons
+
+killall sxhkd compton
+
+sxhkd -c ~/.config/bspwm/sxhkdrc &
+compton -b
+feh --bg-fill $HOME/bg2.jpg --bg-fill $HOME/bg1.jpg --no-fehbg
+
+xsetroot -cursor_name left_ptr
+

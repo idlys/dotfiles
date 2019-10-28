@@ -18,8 +18,8 @@ def math():
 		return False
 endglobal
 
-snippet \( "Inline math" A
-\$ $1 \$
+snippet $$ "Inline math" A
+\$${1:${VISUAL}}\$
 endsnippet
 
 snippet \[ "Display math" bA
@@ -29,8 +29,8 @@ snippet \[ "Display math" bA
 endsnippet
 
 context "math()"
-snippet text "Text" wA
-\text{${1:${VISUAL}}}$0
+snippet text "Text" w
+\text{${1:${VISUAL}}}
 endsnippet
 
 # Fractions
@@ -57,32 +57,59 @@ snippet '(([A-Za-z]|\d)+)/(([A-Za-z]|\d)+)' "Full fraction" wrA
 endsnippet
 
 context "math()"
-snippet sum "Summation" wA
+snippet sum "Summation" w
 \sum_{${1:${2:n} = ${3:0}}}^{${4:\infty}}
 endsnippet
 
 context "math()"
-snippet prod "Products" wA
+snippet prod "Products" w
 \prod_{${1:${2:n} = ${3:0}}}^{${4:\infty}}
 endsnippet
 
 context "math()"
-snippet int "Integral" wA
+snippet int "Integral" w
 \int_{${1:${2:n} = ${3:0}}}^{${4:\infty}}
 endsnippet
 
 context "math()"
-snippet lim "Limit" wA
+snippet lim "Limit" w
 \lim_{${1:x} \to ${2:\infty}}
 endsnippet
 
 context "math()"
-snippet binom "Binomial coefficient" wA
-\binom{${1:n}}{${2:k}}$0
+snippet binom "Binomial coefficient" w
+\binom{${1:n}}{${2:k}}
 endsnippet
 
 context "math()"
-snippet () "Parens" iA
-\parens{${1:${VISUAL}}}
+snippet \{ "Left/right brackets" wA
+\\{ ${1:${VISUAL}} \\}
+endsnippet
+
+context "math()"
+snippet '(left)(\(|\[|\\{|\|)' "Left/right parens" wrA
+\left`!p snip.rv = match.group(2)` ${1:${VISUAL}} \right`!p
+if match.group(2) == "(":
+    snip.rv = ")"
+elif match.group(2) == "[":
+    snip.rv = "]"
+elif match.group(2) == "\\{":
+    snip.rv = "\\}"
+`
+endsnippet
+
+context "math()"
+snippet '(big|Big|bigg|Bigg)(\(|\[|\\{|\|)' "bigness parens" wrA
+\\`!p
+snip.rv = match.group(1)
+``!p snip.rv = match.group(2)
+` ${1:${VISUAL}} \\`!p snip.rv = match.group(1)``!p
+if match.group(2) == "(":
+    snip.rv = ")"
+elif match.group(2) == "[":
+    snip.rv = "]"
+elif match.group(2) == "\\{":
+    snip.rv = "\\}"
+`
 endsnippet
 

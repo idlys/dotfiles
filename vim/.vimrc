@@ -65,4 +65,5 @@ let g:vimtex_log_ignore = ['Zathura is not linked to libsynctex\!']
 let g:tex_flavor = 'latex'
 
 au FileType snippets setlocal noexpandtab nosmarttab
+au FileType java setlocal shiftwidth=4
 

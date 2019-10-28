@@ -4,12 +4,35 @@ snippet env "begin{} / end{}" bA
 \end{$1}
 endsnippet
 
-snippet tt "texttt" wA
-\texttt{${1:${VISUAL}}}$0
+snippet mkdoc "make document" bA
+\documentclass{$1}
+
+\title{$2}
+\author{${3:Rory Little}}
+
+\begin{document}
+
+\maketitle
+
+$0
+
+\end{document}
 endsnippet
 
-snippet bf "textbb" wA
-\textbf{${1:${VISUAL}}}$0
+snippet {{ "curly brackets" iA
+{${1:${VISUAL}}}
+endsnippet
+
+snippet tt "texttt" w
+\texttt{${1:${VISUAL}}}
+endsnippet
+
+snippet bf "textbf" w
+\textbf{${1:${VISUAL}}}
+endsnippet
+
+snippet it "textit" w
+\textit{${1:${VISUAL}}}
 endsnippet
 
 snippet sec "section" bA

@@ -1,0 +1,48 @@
+# zathurarc - Zathura config file
+# vim: set ft=config
+
+# Colors and fonts
+
+set recolor true
+set recolor-darkcolor "#c5c8c6"
+set recolor-lightcolor "#282a2e"
+
+set default-fg "#c5c8c6"
+set default-bg "#1d1f21"
+
+set inputbar-fg "#c5c8c6"
+set inputbar-bg "#1d1f21"
+
+set statusbar-fg "#c5c8c6"
+set statusbar-bg "#1d1f21"
+
+set font "DejaVu Sans Mono normal 12"
+
+
+# GUI
+set guioptions ""
+
+set statusbar-h-padding 10
+set statusbar-v-padding 10
+set statusbar-basename true
+
+
+# Keybindings
+
+# simple keypress defaults to full move
+map h navigate previous
+map j navigate next
+map k navigate previous
+map l navigate next
+
+# shifted keypress for minute adjustments
+map H scroll left
+map J scroll down
+map K scroll up
+map L scroll right
+
+map s toggle_statusbar
+
+map a adjust_window best-fit
+map A adjust_window width
+
